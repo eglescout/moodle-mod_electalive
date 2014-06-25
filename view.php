@@ -124,7 +124,6 @@
 	<script language="javascript">
 			var electalive_t = setTimeout("window.location.reload()", <?php echo $refreshtime; ?> )
 		</script>
-<h2>E-lecta Teacher = <?php echo $AccountType; ?> (1000 = yes)</h2>	 
 <?php
 		$OUTPUT->footer($course);
 ?>
