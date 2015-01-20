@@ -389,15 +389,14 @@ function electalive_buildURLString($ARoomID, $cmid) {
 
         $lcUTID = electalive_getAccountType($cmid);
 
-        $lcAction = 'https://'.$roomURL.'/apps/launch.asp';
+        $lcAction = 'http://'.$roomURL.'/apps/launch.asp';
         $theRoomLink =
                     '<form method="post" action="'.$lcAction.'" target="_blank" style="margin:0px;padding:0px">'
                      . '<input type=hidden name="cid" value="'.$lcCID.'">'
                      . '<input type=hidden name="roomid" value="'.$ARoomID.'">'
                      . '<input type=hidden name="externalname" value="'.$USER->username.'">'
                      . '<input type=hidden name="firstname" value="'.$USER->firstname.'">'
-// CE screenname - use just firstname as $USER->lastname contains the real name of the user.
-//                     . '<input type=hidden name="lastname" value="'.$USER->lastname.'">'
+                     . '<input type=hidden name="lastname" value="'.$USER->lastname.'">'
                      . '<input type=hidden name="lastname" value="">'
                      . '<input type=hidden name="usertypeid" value="'.$lcUTID.'">'
                      . '<input type=hidden name="token" value="'.$token.'">'
@@ -409,8 +408,7 @@ function electalive_buildURLString($ARoomID, $cmid) {
 function electalive_getAccountType($cmid) {
     global $COURSE, $USER;
 
-    // CE change to newer function
-		$context = context_module::instance($cmid);
+    $context = context_module::instance($cmid);
     if (has_capability('mod/electalive:attendteacher', $context)) {
        $AccountType = 1000;
     } else {
