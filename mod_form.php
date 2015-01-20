@@ -4,11 +4,13 @@ if (!defined('MOODLE_INTERNAL')) {
 }
 
 require_once ($CFG->dirroot.'/course/moodleform_mod.php');
+require_once("lib.php");
 
 class mod_electalive_mod_form extends moodleform_mod {
 
     public function mod_electalive_mod_form($current, $section, $cm, $course) {
         $this->course = $course;
+				$this->cm = $cm;
         parent::moodleform_mod($current, $section, $cm, $course);
 				if (!empty($current->meetingtimeend)) {
 					$current->duration = ($current->meetingtimeend - $current->meetingtime) / 60;
@@ -39,9 +41,18 @@ class mod_electalive_mod_form extends moodleform_mod {
         $mform->addElement('date_time_selector', 'meetingtime', get_string('meetingbegins', 'electalive'));
         $mform->setDefault('meetingtime', 0);
 
-        $mform->addElement('text', 'roomid', get_string("roomid", "electalive"), "");
+				// Check if user has room ID editing privileges - readonly if no
+				$room_attributes='';
+				if(electalive_getChangeRoom($this->cm->id) == 0) {
+					$room_attributes='readonly=""';
+				}
+				$mform->addElement('text', 'roomid', get_string('roomid', 'electalive'),$room_attributes );
         $mform->addRule('roomid', null, 'required', null, 'client');
-		$mform->addHelpButton('roomid', 'roomid', 'electalive');		
+				$mform->addHelpButton('roomid', 'roomid', 'electalive');
+				$mform->setType('roomid',PARAM_INT);
+				
+				
+		
         $durations = array(
                    "10" => "10 minutes",
                    "15" => "15 Minutes",
@@ -58,6 +69,7 @@ class mod_electalive_mod_form extends moodleform_mod {
                    "120" => "2 Hours",
 									 "150" => "2.5 Hours",
                    "180" => "3 Hours",
+									 "240" => "4 Hours",
                    "360" => "6 Hours",
                    "600" => "10 Hours",
                    "720" => "12 Hours",

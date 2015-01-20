@@ -21,13 +21,13 @@
  * This code fragment is called by moodle_needs_upgrading() and
  * /admin/index.php
  *
- * @package   mod_docbook
- * @copyright 2010 Madhabendra Mandal
+ * @package   mod_electalive
+ * @copyright 2010 
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die();
 
-$module->version  = 2012123003;  // The current module version (Date: YYYYMMDDXX)
-$module->requires = 2012062100;  // Requires this Moodle version
+$module->version  = 2012123006;  // The current module version (Date: YYYYMMDDXX)
+$module->requires = 2012062500;  // Requires this Moodle version
 $module->cron     = 0;           // Period for cron to check this module (secs)
 ?>

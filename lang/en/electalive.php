@@ -16,13 +16,13 @@
 
 
 /**
- * English strings for docbook
+ * English strings for electalive
  *
  * You can have a rather longer description of the file as well,
  * if you like, and it can span multiple lines.
  *
- * @package   mod_docbook
- * @copyright 2010 Madhabendra Mandal
+ * @package   mod_electalive
+ * @copyright 2010 
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,9 +30,16 @@ defined('MOODLE_INTERNAL') || die();
 
 $string['electalive'] = 'eLecta Live Session';
 $string['enterelectalive'] = 'Enter The Classroom';
-$string['addinstance'] = 'Add an eLecta Live Session';
+$string['addinstance'] = 'Add an eLecta Live Session; edit classroom IDs';
 $string['attendstudent'] = 'Attend as a student';
 $string['attendteacher'] = 'Attend as a teacher or moderator';
+$string['editinstancetimeonly'] = 'Edit times of session only';
+$string['electalive:addinstance'] = 'Add a new eLecta Live session';
+$string['electalive:attendstudent'] = 'Attend an eLecta Live session as a student';
+$string['electalive:attendteacher'] = 'Attend an eLecta Live session as a moderator/teacher';
+$string['electalive:editinstance'] = 'Edit eLecta Live sessions';
+$string['electalive:editliveroom'] = 'Edit eLecta Live Room #s';
+$string['electalive:view'] = 'View the page for eLecta Live sessions';
 $string['invalidcourseid'] =  'Course ID is incorrect.';
 $string['invalidmeetingtimes'] = 'The session start time of {$a->timestart} is after the session end time of {$a->timeend}';
 $string['meetingbegins'] = 'Session Begins';

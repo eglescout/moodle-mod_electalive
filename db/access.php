@@ -41,8 +41,8 @@
  *
  * The variable name for the capability definitions array is $capabilities
  *
- * @package   mod_docbook
- * @copyright 2010 Madhabendra Mandal
+ * @package   mod_electa_live
+ * @copyright 2010 Madhabendra Mandal, @copyright 2014 Chris Egle
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -71,7 +71,7 @@ $capabilities = array(
             'editingteacher' => CAP_PROHIBIT,
             'manager' => CAP_PROHIBIT
         )
-    ) ,
+    ),
     
     'mod/electalive:attendteacher' => array(
         'captype' => 'write',
@@ -91,5 +91,23 @@ $capabilities = array(
             'manager' => CAP_ALLOW
         )
     ),
+		'mod/electalive:editinstance' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => array(
+						'editingteacher' => CAP_ALLOW,
+						'manager' => CAP_ALLOW
+        )
+    ),
+		'mod/electalive:editliveroom' => array(
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => array(
+						'editingteacher' => CAP_ALLOW,
+						'manager' => CAP_ALLOW
+        )
+    ),
+		
+
 );
 

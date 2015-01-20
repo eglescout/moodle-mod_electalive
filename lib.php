@@ -52,7 +52,8 @@ function eLectaLive_add_instance($electalive, $mform) {
 
 
     if ($returnid = $DB->insert_record("electalive", $electalive)) {
-        $event = NULL;
+        
+				$event = new stdClass;
         $event->name        = $electalive->name;
         $event->description = $electalive->sessiondescription;
         $event->courseid    = $electalive->course;
@@ -60,10 +61,13 @@ function eLectaLive_add_instance($electalive, $mform) {
         $event->userid      = 0;
         $event->modulename  = 'electalive';
         $event->instance    = $returnid;
-        $event->eventtype   = 0;
+        $event->eventtype   = 'electalive';
         $event->timestart   = $electalive->meetingtime;
         $event->timeduration = $electalive->duration * 60;
-        add_event($event);
+				$event->visible			= instance_is_visible('electalive', $electalive);
+
+				calendar_event::create($event);
+				
     }
 
     return $returnid;
@@ -82,6 +86,7 @@ function electalive_update_instance($electalive) {
     global $USER;
     global $CFG;
     global $DB;
+		
 
     $electalive->timemodified = time();
     $electalive->id = $electalive->instance;
@@ -145,16 +150,16 @@ function electalive_update_instance($electalive) {
     }
 
     if ($returnid = $DB->update_record("electalive", $electalive)) {
-
-        $event = NULL;
-
-        if ($event->id = $DB->get_field('event', 'id', array('modulename'=>'electalive', 'instance'=>$electalive->id))) {
-            $event->name        = $electalive->name;
-            $event->description = $electalive->sessiondescription;
-            $event->timestart   = $electalive->meetingtime;
-            $event->timeduration = $electalive->duration * 60;
-
-            update_event($event);
+				$data = new stdClass;
+        if ($data->id = $DB->get_field('event', 'id', array('modulename'=>'electalive', 'instance'=>$electalive->id))) {
+						$data->name        = $electalive->name;
+            $data->description = $electalive->sessiondescription;
+            $data->timestart   = $electalive->meetingtime;
+            $data->timeduration = $electalive->duration * 60;
+						$data->visible			= instance_is_visible('electalive', $electalive);
+						$eventid = $data->id;
+						$event = calendar_event::load($eventid);
+						$event->update($data);
         }
     }
 
@@ -375,16 +380,16 @@ function eLectalive_getSessionToken() {
         return $resss;
 }
 
-function electalive_buildURLString($ARoomID, $crsid) {
+function electalive_buildURLString($ARoomID, $cmid) {
         global $CFG;
         global $USER;
         $roomURL = get_config('electalive', 'subdomain');
         $token = electalive_getSessionToken();
         $lcCID = get_config('electalive', 'accountid');
 
-        $lcUTID = electalive_getAccountType($crsid);
+        $lcUTID = electalive_getAccountType($cmid);
 
-        $lcAction = 'http://'.$roomURL.'/apps/launch.asp';
+        $lcAction = 'https://'.$roomURL.'/apps/launch.asp';
         $theRoomLink =
                     '<form method="post" action="'.$lcAction.'" target="_blank" style="margin:0px;padding:0px">'
                      . '<input type=hidden name="cid" value="'.$lcCID.'">'
@@ -401,12 +406,11 @@ function electalive_buildURLString($ARoomID, $crsid) {
         return $theRoomLink;
 }
 
-function eLectaLive_getAccountType($crsid) {
+function electalive_getAccountType($cmid) {
     global $COURSE, $USER;
 
-    //$context = get_context_instance(CONTEXT_MODULE, $crsid);
-		// CE change to newer function
-		$context = context_module::instance($crsid);
+    // CE change to newer function
+		$context = context_module::instance($cmid);
     if (has_capability('mod/electalive:attendteacher', $context)) {
        $AccountType = 1000;
     } else {
@@ -414,4 +418,22 @@ function eLectaLive_getAccountType($crsid) {
     }
     return $AccountType;
 }
+function electalive_getChangeRoom($cmid) {
+    global $COURSE, $USER;
+		
+		if (IS_NULL($cmid)) {
+			$ChangeRoom = 1000;
+		} else {	
+			//use only for the editing case: add instance OR edit live room permissions will allow the user to change the room
+			$context = context_module::instance($cmid);
+			if ((has_capability('mod/electalive:addinstance', $context)) || (has_capability('mod/electalive:editliveroom', $context)))
+			{
+				$ChangeRoom = 1000;
+			} else {
+			 $ChangeRoom = 0;
+			}
+		}
+    return $ChangeRoom;
+}
+
 ?>

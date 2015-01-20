@@ -2,12 +2,10 @@
 /**
  * This page prints a particular instance of electalive
  * 
- * @author 
- * @version $Id: view.php,v 1.4 2006/08/28 16:41:20 mark-nielsen Exp $
+ * @author Mark Nielsen, others, Chris Egle
+ * @version $Id: 
  * @package electalive
  **/
-
-/// (Replace electalive with the name of your module)
 
     require_once("../../config.php");
     require_once("lib.php");
@@ -44,16 +42,10 @@
 		$context = context_module::instance($cm->id);
 		require_capability('mod/electalive:view', $context);
 
-		// Check if user has moderator privileges
-		if (has_capability('mod/electalive:attendteacher', $context)) {
-       $AccountType = 1000;
-    } else {
-       $AccountType = 0;
-    }
 		// Log this request.
 		add_to_log($course->id, "electalive", "view", "view.php?id=$cm->id", "$electalive->id");
 
-/// Print the page header
+// Initialize $PAGE, print headers
 
     if ($course->category) {
         $navigation = "<a href=\"../../course/view.php?id=$course->id\">$course->shortname</a> ->";
@@ -63,14 +55,17 @@
 
     $strelectalives = get_string("modulenameplural", "electalive");
     $strelectalive  = get_string("modulename", "electalive");
-
-    print_header("$course->shortname: $electalive->name", "$course->fullname",
-                 "$navigation <a href=index.php?id=$course->id>$strelectalives</a> -> $electalive->name",
-                  "", "", true, update_module_button($cm->id, $course->id, $strelectalive),
-                  navmenu($course, $cm));
-											
-// Initialize $PAGE, compute blocks 
+		
+		
 		$PAGE->set_url('/mod/electalive/view.php', array('id' => $cm->id));
+		$PAGE->set_context($context);
+		$pagetitle = $course->shortname.': '.$electalive->name;
+		$PAGE->set_title($pagetitle);
+		$PAGE->set_heading($course->fullname);
+		$PAGE->set_cacheable(true);
+		$PAGE->set_button(update_module_button($cm->id, $course->id, $strelectalive));
+
+		echo $OUTPUT->header();
 		
 // Print the main part of the page
 
@@ -100,29 +95,35 @@
 		$meetingtime = $electalive->meetingtime;
 		$meetingtimeend = $electalive->meetingtimeend;
 		$randomtime = rand(1,75); // distribute the load for the server
-		$refreshtime = ($meetingtimeend - $t + $randomtime)*1000;
+		$refreshtime = $meetingtimeend - $t;
+		$maxrefresh = 15120; // 4.2 hours > than maximum session time for Moodle
   
-	/////// TODO add has_capability('mod/electalive:attendteacher', $context) into this call - maybe just pass the 1000 or 0 here ////////////
 		$button = electalive_buildURLString($electalive->roomid, $cm->id);
 
     if ($meetingtime > $t) {
-       $text = get_string('meetingnotstarted', 'electalive');
-       $button = "";
-			 $refreshtime  = ($meetingtime - $t + $randomtime)*1000;
+			$text = get_string('meetingnotstarted', 'electalive');
+      $button = "";
+			$refreshtime = $meetingtime - $t;
+			// limit refresh time to maxrefresh
+			if ($refreshtime > $maxrefresh) {
+				$refreshtime = $maxrefresh; 
+			} 
     }
     if ($t > $meetingtimeend) {
-       $text = get_string('meetingover', 'electalive');
-       $button = "";
-			 $refreshtime = (120*60 + $randomtime)*1000;
+      $text = get_string('meetingover', 'electalive');
+      $button = "";
+			$refreshtime = $maxrefresh + $randomtime;
     }
-
+		// convert to microseconds and add random element for server load
+		$refreshtime = ($refreshtime + $randomtime)*1000;
+		
     echo $text.'<BR><BR>';
     echo $button;
 		update_module_button($cm->id, $course->id, $strelectalive);
 
 ?>
 	<script language="javascript">
-			var electalive_t = setTimeout("window.location.reload()", <?php echo $refreshtime; ?> )
+			var electalive_t = setTimeout(function(){window.location.reload()}, <?php echo $refreshtime; ?> )
 		</script>
 <?php
 		$OUTPUT->footer($course);
