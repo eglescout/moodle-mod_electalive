@@ -409,8 +409,7 @@ function electalive_buildURLString($ARoomID, $cmid) {
 function electalive_getAccountType($cmid) {
     global $COURSE, $USER;
 
-    // CE change to newer function
-		$context = context_module::instance($cmid);
+    $context = context_module::instance($cmid);
     if (has_capability('mod/electalive:attendteacher', $context)) {
        $AccountType = 1000;
     } else {
