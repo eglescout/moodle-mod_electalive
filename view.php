@@ -81,10 +81,12 @@
     <td><?php print_string('meetingends', 'electalive');?></td>
     <td><b><?php echo userdate($electalive->meetingtimeend); ?></b></td>
 </tr>
+<?php if (!empty($electalive->sessiondescription)) { ?>
 <tr>
     <td valign=top><?php print_string('description');?></td>
     <td><?php echo $electalive->sessiondescription; ?></td>
 </tr>
+<?php } ?>
 
 </table>
 
