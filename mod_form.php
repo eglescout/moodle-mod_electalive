@@ -43,8 +43,10 @@ class mod_electalive_mod_form extends moodleform_mod {
 
 				// Check if user has room ID editing privileges - readonly if no
 				$room_attributes='';
-				if(electalive_getChangeRoom($this->cm->id) == 0) {
-					$room_attributes='readonly=""';
+				if(!empty($this->cm->id)) {
+					if(electalive_getChangeRoom($this->cm->id) == 0) {
+						$room_attributes='readonly=""';
+					}
 				}
 				$mform->addElement('text', 'roomid', get_string('roomid', 'electalive'),$room_attributes );
         $mform->addRule('roomid', null, 'required', null, 'client');
