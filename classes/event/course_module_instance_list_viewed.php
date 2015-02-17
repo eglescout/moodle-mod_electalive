@@ -14,20 +14,26 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-
 /**
- * Defines the version of newmodule
+ * The mod_quiz instance list viewed event.
  *
- * This code fragment is called by moodle_needs_upgrading() and
- * /admin/index.php
- *
- * @package   mod_electalive
- * @copyright 2010 
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    mod_electalive
+ * @copyright  2014 Chris Egle <chris@bowenlearn.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+namespace mod_electalive\event;
+
 defined('MOODLE_INTERNAL') || die();
 
-$module->version  = 2014050800;  // The current module version (Date: YYYYMMDDXX)
-$module->requires = 2014050800;  // Requires this Moodle version
-$module->cron     = 0;           // Period for cron to check this module (secs)
-?>
+/**
+ * The mod_quiz instance list viewed event class.
+ *
+ * @package    mod_electalive
+ * @since      Moodle 2.7
+ * @copyright  2014 Chris Egle <chris@bowenlearn.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class course_module_instance_list_viewed extends \core\event\course_module_instance_list_viewed {
+    // No code required here as the parent class handles it all.
+}
