@@ -43,8 +43,13 @@
 		require_capability('mod/electalive:view', $context);
 
 		// Log this request.
-		add_to_log($course->id, "electalive", "view", "view.php?id=$cm->id", "$electalive->id");
-
+		$params = array(
+			'objectid' => $electalive->id,
+			'context' => $context
+		);
+		$event = \mod_electalive\event\course_module_viewed::create($params);
+		$event->trigger();
+		
 // Initialize $PAGE, print headers
 
     if ($course->category) {

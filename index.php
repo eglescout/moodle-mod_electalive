@@ -23,7 +23,7 @@
  * particular course.
  *
  * @package   mod_electalive
- * @copyright 2010 Alejandro Michavila
+ * @copyright 2010 Alejandro Michavila, 2015 Chris Egle
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -48,7 +48,12 @@ require_course_login($course);
 
 /// Records user activity
 
-add_to_log($course->id, 'electalive', 'view all', "index.php?id=$course->id", '');
+$params = array(
+	'context' => context_course::instance($id)
+);
+$event = \mod_electalive\event\course_module_instance_list_viewed::create($params);
+$event->trigger();
+
 
 /// Output starts here, setting the page
 
