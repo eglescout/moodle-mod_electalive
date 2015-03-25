@@ -392,8 +392,9 @@ function electalive_buildURLString($ARoomID, $cmid) {
                      . '<input type=hidden name="cid" value="'.$lcCID.'">'
                      . '<input type=hidden name="roomid" value="'.$ARoomID.'">'
                      . '<input type=hidden name="externalname" value="'.$USER->username.'">'
-                     . '<input type=hidden name="firstname" value="'.$USER->firstname.'">'
-// CE screenname - use just firstname as $USER->lastname contains the real name of the user.
+// CE screenname - use alternatename only as $USER->firstname and $USER->lastname contains the real name of the user.
+//                     . '<input type=hidden name="firstname" value="'.$USER->firstname.'">'
+                     . '<input type=hidden name="firstname" value="'.$USER->alternatename.'">'
 //                     . '<input type=hidden name="lastname" value="'.$USER->lastname.'">'
                      . '<input type=hidden name="lastname" value="">'
                      . '<input type=hidden name="usertypeid" value="'.$lcUTID.'">'
