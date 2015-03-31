@@ -20,9 +20,8 @@ $electalive_CONSTANT = 7;     /// for example
  * @return int The id of the newly inserted electalive record
  **/
 function eLectaLive_add_instance($electalive, $mform) {
-    global $CFG;
-    global $USER;
-    global $DB;
+    global $CFG, $USER, $DB;
+    require_once("$CFG->dirroot/calendar/lib.php");
     $electalive->timemodified = time();
     $electalive->timezone = get_user_timezone($USER->timezone);
 
@@ -83,11 +82,8 @@ function eLectaLive_add_instance($electalive, $mform) {
  * @return boolean Success/Fail
  **/
 function electalive_update_instance($electalive) {
-    global $USER;
-    global $CFG;
-    global $DB;
-		
-
+    global $CFG, $USER, $DB;
+    require_once("$CFG->dirroot/calendar/lib.php");
     $electalive->timemodified = time();
     $electalive->id = $electalive->instance;
     $electalive->timezone = get_user_timezone($USER->timezone);
