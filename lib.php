@@ -393,7 +393,6 @@ function electalive_buildURLString($ARoomID, $cmid) {
                      . '<input type=hidden name="externalname" value="'.$USER->username.'">'
                      . '<input type=hidden name="firstname" value="'.$USER->firstname.'">'
                      . '<input type=hidden name="lastname" value="'.$USER->lastname.'">'
-                     . '<input type=hidden name="lastname" value="">'
                      . '<input type=hidden name="usertypeid" value="'.$lcUTID.'">'
                      . '<input type=hidden name="token" value="'.$token.'">'
                      . '<input type=submit value="' . get_string('enterelectalive','electalive') . '">'
