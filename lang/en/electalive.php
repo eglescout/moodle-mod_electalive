@@ -49,6 +49,7 @@ $string['meetingnotstarted'] = 'This live session has not started yet.';
 $string['meetingon'] = 'This session is now on. Click the Enter button to launch the session.';
 $string['meetingover'] = 'This live session is over.';
 $string['missingroomno'] = 'No room number specified for this session. Please specify a room number. If not sure please ask your Moodle administrator for support.';
+$string['moderatoronlystarted'] = 'As part of the teaching staff, you may now enter the classroom. Others will have to wait until {$a} before they can enter.';
 $string['modulename'] = 'eLecta Live Session';
 $string['modulenameplural'] = 'eLecta Live Sessions';
 $string['modulename_help'] = 'The Live Session module allows a teacher to create a session at a particular date, time, and duration. Anyone with access to the course can attend the live session in an eLecta Virtual Classroom  by clicking on the button that appears only during the date and time specified.';

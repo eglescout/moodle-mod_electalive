@@ -16,26 +16,28 @@
     $a  = optional_param('a', 0, PARAM_INT);  // electalive ID
 
     if ($id) {
-        if (! $cm = $DB->get_record("course_modules", array("id" => $id))) {
-            error("Course Module ID was incorrect");
+        if (! $cm = get_coursemodule_from_id('electalive', $id)) {
+            print_error('invalidcoursemodule');
         }
 
         if (! $course = $DB->get_record("course", array("id" => $cm->course))) {
-            error("Course is misconfigured");
+            print_error('coursemisconf');
         }
     
         if (! $electalive = $DB->get_record("electalive", array("id" => $cm->instance))) {
-            error("Course module is incorrect");
+            print_error('invalidcoursemodule');
         }
 
     } else {
         if (! $electalive = $DB->get_record("electalive", array("id"=> $a))) {
-            error("Course module is incorrect");
+            print_error('invalidcoursemodule');
         }
         if (! $course = $DB->get_record("course", array("id" => $electalive->course))) {
-            error("Course is misconfigured");
+            print_error('coursemisconf');
         }
-
+        if (! $cm = get_coursemodule_from_instance("electalive", $electalive->id, $course->id)) {
+            print_error('invalidcoursemodule');
+        }
     }
 		// Check login and get context.
 		require_login($course, false, $cm);
@@ -71,13 +73,12 @@
 		$PAGE->set_button(update_module_button($cm->id, $course->id, $strelectalive));
 
 		echo $OUTPUT->header();
+        echo $OUTPUT->heading(format_text($electalive->name));
 		
 // Print the main part of the page
 
-    echo '<div style="margin-bottom:10px; border-bottom:1px #C0C0C0 solid; font-size:14px"><b>'.$electalive->name.'</b></div>';
-
 ?>
-<table cellspacing=0 cellpadding=2>
+<table class="table table-striped table-bordered">
 <tr>
     <td><?php print_string('meetingbegins', 'electalive'); ?></td>
     <td><b><?php echo userdate($electalive->meetingtime); ?></b></td>
@@ -96,42 +97,65 @@
 </table>
 
 <?php
-    echo '<div style="margin-top:10px; margin-bottom:5px; border-top:1px #C0C0C0 solid; font-size:14px"><b>'.'</b></div>';
+   // echo '<div style="margin-top:10px; margin-bottom:5px; border-top:1px #C0C0C0 solid; font-size:14px"><b>'.'</b></div>';
     $t = time();
+    $earlyopen = 15*60; //time in seconds to open the classroom before the start time
+    $moderatorearlyopen = 30*60; // time in seconds to open the classroom before the start time for instructors and teachers
     $text = get_string('meetingon', 'electalive');
-		$meetingtime = $electalive->meetingtime;
-		$meetingtimeend = $electalive->meetingtimeend;
-		$randomtime = rand(1,75); // distribute the load for the server
-		$refreshtime = $meetingtimeend - $t;
-		$maxrefresh = 15120; // 4.2 hours > than maximum session time for Moodle
-  
-		$button = electalive_buildURLString($electalive->roomid, $cm->id);
-
-    if ($meetingtime > $t) {
-			$text = get_string('meetingnotstarted', 'electalive');
-      $button = "";
-			$refreshtime = $meetingtime - $t;
-			// limit refresh time to maxrefresh
-			if ($refreshtime > $maxrefresh) {
-				$refreshtime = $maxrefresh; 
-			} 
+    if (electalive_getAccountType($cm->id) > 500){
+        $modmeetingtime = $electalive->meetingtime - $moderatorearlyopen;
     }
+    $meetingtime = $electalive->meetingtime - $earlyopen;
+    $meetingtimeend = $electalive->meetingtimeend;
+    $randomtime = rand(1,75); // distribute the load for the server
+    $refreshtime = $meetingtimeend - $t + $randomtime;
+    $maxrefresh = 15120; // 4.2 hours > than maximum session time for Moodle
+  
+    $button = electalive_buildURLString($electalive->roomid, $cm->id);
+    if (isset($modmeetingtime) && $meetingtime > $t) {
+        if ($modmeetingtime > $t) {
+            $text = get_string('meetingnotstarted', 'electalive');
+            $button = '';
+            // no random timing for instructors
+			$refreshtime = $modmeetingtime - $t;
+        } else {
+            //$regularopening = userdate($meetingtime);
+            $text = get_string('moderatoronlystarted', 'electalive',userdate($meetingtime));
+        }
+    } else {
+        if ($meetingtime > $t) {
+            $text = get_string('meetingnotstarted', 'electalive');
+            $button = '';
+			$refreshtime = $meetingtime - $t + $randomtime;
+        }
+    }
+    // limit refresh time to maxrefresh
+    if ($refreshtime > $maxrefresh) {
+        $refreshtime = $maxrefresh; 
+    }
+
     if ($t > $meetingtimeend) {
       $text = get_string('meetingover', 'electalive');
-      $button = "";
-			$refreshtime = $maxrefresh + $randomtime;
+      $button = '';
+			//$refreshtime = $maxrefresh + $randomtime;
+            $refreshtime = 0;
     }
-		// convert to microseconds and add random element for server load
-		$refreshtime = ($refreshtime + $randomtime)*1000;
-		
-    echo $text.'<BR><BR>';
+    // convert to microseconds
+    $refreshtime = $refreshtime*1000;		
+    echo '<div style="padding:30px 0">'.$text.'</div>';
     echo $button;
 		update_module_button($cm->id, $course->id, $strelectalive);
-
+    if ($refreshtime > 0){
+        echo '<script type="text/javascript">
+                var electalive_t = setTimeout(function(){window.location.reload()},'.$refreshtime.' )
+            </script>';
+    }
+    /*
 ?>
-	<script language="javascript">
+	<script type="text/javascript">
 			var electalive_t = setTimeout(function(){window.location.reload()}, <?php echo $refreshtime; ?> )
-		</script>
+    </script>
 <?php
-		$OUTPUT->footer($course);
+ */
+		echo $OUTPUT->footer();
 ?>
