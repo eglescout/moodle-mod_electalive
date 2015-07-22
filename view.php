@@ -76,29 +76,28 @@
         echo $OUTPUT->heading(format_text($electalive->name));
 		
 // Print the main part of the page
-
+ if (!empty($electalive->intro)) {
+        echo $OUTPUT->box(format_module_intro('electalive', $electalive, $cm->id), 'generalbox', 'intro');
+    }
 ?>
-<table class="table table-striped table-bordered">
-<tr>
-    <td><?php print_string('meetingbegins', 'electalive'); ?></td>
-    <td><b><?php echo userdate($electalive->meetingtime); ?></b></td>
-</tr>
-<tr>
-    <td><?php print_string('meetingends', 'electalive');?></td>
-    <td><b><?php echo userdate($electalive->meetingtimeend); ?></b></td>
-</tr>
-<?php if (!empty($electalive->sessiondescription)) { ?>
-<tr>
-    <td valign=top><?php print_string('description');?></td>
-    <td><?php echo $electalive->sessiondescription; ?></td>
-</tr>
-<?php } ?>
 
+<table class="table table-striped table-bordered">
+    <tbody>
+        <tr>
+            <td><?php print_string('meetingbegins', 'electalive'); ?></td>
+            <td><b><?php echo userdate($electalive->meetingtime); ?></b></td>
+        </tr>
+        <tr>
+            <td><?php print_string('meetingends', 'electalive');?></td>
+            <td><b><?php echo userdate($electalive->meetingtimeend); ?></b></td>
+        </tr>
+    </tbody>
 </table>
 
 <?php
    // echo '<div style="margin-top:10px; margin-bottom:5px; border-top:1px #C0C0C0 solid; font-size:14px"><b>'.'</b></div>';
     $t = time();
+    //TODO - hook up to earlyopen, moderatorearlyopen
     $earlyopen = 15*60; //time in seconds to open the classroom before the start time
     $moderatorearlyopen = 30*60; // time in seconds to open the classroom before the start time for instructors and teachers
     $text = get_string('meetingon', 'electalive');
@@ -109,7 +108,7 @@
     $meetingtimeend = $electalive->meetingtimeend;
     $randomtime = rand(1,75); // distribute the load for the server
     $refreshtime = $meetingtimeend - $t + $randomtime;
-    $maxrefresh = 15120; // 4.2 hours > than maximum session time for Moodle
+    $maxrefresh = 15120; // 4.2 hours - greater than the maximum session time for Moodle - so the page refresh doesn't keep someone logged in inadvertantly
   
     $button = electalive_buildURLString($electalive->roomid, $cm->id);
     if (isset($modmeetingtime) && $meetingtime > $t) {

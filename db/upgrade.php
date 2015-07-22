@@ -40,17 +40,39 @@ function xmldb_electalive_upgrade($oldversion) {
     $dbman = $DB->get_manager();
 
 
-    // Moodle v2.2.0 release upgrade line
+    // Moodle v2.7.0 release upgrade line
     // Put any upgrade step following this
+        if ($oldversion < 2015072200) {
 
-    // Moodle v2.3.0 release upgrade line
-    // Put any upgrade step following this
+        // Rename field sessiondescription on table electalive to intro.
+        $table = new xmldb_table('electalive');
+        $field = new xmldb_field('sessiondescription', XMLDB_TYPE_TEXT, null, null, null, null, null, 'name');
 
+        // Launch rename field intro.
+        $dbman->rename_field($table, $field, 'intro');
 
-    // Moodle v2.4.0 release upgrade line
-    // Put any upgrade step following this
+        // Define field earlyopen to be added to electalive.
+        //$table = new xmldb_table('electalive');
+        $field = new xmldb_field('earlyopen', XMLDB_TYPE_INTEGER, '5', null, XMLDB_NOTNULL, null, null, 'meetingtimeend');
 
+        // Conditionally launch add field earlyopen.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        
+        // Define field moderatorearlyopen to be added to electalive.
+        //$table = new xmldb_table('electalive');
+        $field = new xmldb_field('moderatorearlyopen', XMLDB_TYPE_INTEGER, '5', null, XMLDB_NOTNULL, null, null, 'earlyopen');
 
+        // Conditionally launch add field moderatorearlyopen.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Electalive savepoint reached.
+        upgrade_mod_savepoint(true, 2015072200, 'electalive');
+    }
+      
     return true;
 }
 
