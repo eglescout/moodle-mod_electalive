@@ -18,8 +18,8 @@
 /**
  * Resource module admin settings and defaults
  *
- * @package    mod_docbook
- * @copyright  2010 Madhabendra Mandal
+ * @package    mod_electalive
+ * @copyright  2015 Chris Egle
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -36,5 +36,9 @@ if ($ADMIN->fulltree) {
 
     $settings->add(new admin_setting_configtext('electalive/scode', get_string('scode', 'electalive'),
                    get_string('scodedesc', 'electalive'), null, PARAM_TEXT, 50));
+    $settings->add(new admin_setting_configtext('electalive/defaultearlyopen',
+        get_string('defaultearlyopen', 'electalive'), get_string('defaultearlyopendesc', 'electalive'), 15, PARAM_INT));
+    $settings->add(new admin_setting_configtext('electalive/defaultmoderatorearlyopen',
+        get_string('defaultmoderatorearlyopen', 'electalive'), get_string('defaultmoderatorearlyopendesc', 'electalive'), 30, PARAM_INT));
 
 }
