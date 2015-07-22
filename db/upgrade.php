@@ -53,7 +53,7 @@ function xmldb_electalive_upgrade($oldversion) {
 
         // Define field earlyopen to be added to electalive.
         //$table = new xmldb_table('electalive');
-        $field = new xmldb_field('earlyopen', XMLDB_TYPE_INTEGER, '5', null, XMLDB_NOTNULL, null, null, 'meetingtimeend');
+        $field = new xmldb_field('earlyopen', XMLDB_TYPE_INTEGER, '5', null, XMLDB_NOTNULL, null, '0', 'meetingtimeend');
 
         // Conditionally launch add field earlyopen.
         if (!$dbman->field_exists($table, $field)) {
@@ -62,7 +62,7 @@ function xmldb_electalive_upgrade($oldversion) {
         
         // Define field moderatorearlyopen to be added to electalive.
         //$table = new xmldb_table('electalive');
-        $field = new xmldb_field('moderatorearlyopen', XMLDB_TYPE_INTEGER, '5', null, XMLDB_NOTNULL, null, null, 'earlyopen');
+        $field = new xmldb_field('moderatorearlyopen', XMLDB_TYPE_INTEGER, '5', null, XMLDB_NOTNULL, null, '0', 'earlyopen');
 
         // Conditionally launch add field moderatorearlyopen.
         if (!$dbman->field_exists($table, $field)) {
