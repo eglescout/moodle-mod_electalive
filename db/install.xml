@@ -7,9 +7,10 @@
     <TABLE NAME="electalive" COMMENT="Contains eLecta Live sessions scheduled in Moodle">
         <FIELDS>
             <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" COMMENT="id"/>
-            <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Course docbook activity belongs to"/>
+            <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Course electalive activity belongs to"/>
             <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="name"/>
-            <FIELD NAME="intro" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+            <FIELD NAME="intro" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
+            <FIELD NAME="introformat" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
             <FIELD NAME="roomid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
             <FIELD NAME="meetingtime" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
             <FIELD NAME="timezone" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>

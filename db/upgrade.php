@@ -50,10 +50,26 @@ function xmldb_electalive_upgrade($oldversion) {
 
         // Launch rename field intro.
         $dbman->rename_field($table, $field, 'intro');
+        
+        // Changing nullability of field intro on table electalive to not null.
+        $table = new xmldb_table('electalive');
+        $field = new xmldb_field('intro', XMLDB_TYPE_TEXT, null, null, XMLDB_NOTNULL, null, null, 'name');
+
+        // Launch change of nullability for field intro.
+        $dbman->change_field_notnull($table, $field);
+        
+        // Define field introformat to be added to electalive.
+        $table = new xmldb_table('electalive');
+        $field = new xmldb_field('introformat', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '0', 'intro');
+
+        // Conditionally launch add field introformat.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
 
         // Define field earlyopen to be added to electalive.
-        //$table = new xmldb_table('electalive');
-        $field = new xmldb_field('earlyopen', XMLDB_TYPE_INTEGER, '5', null, XMLDB_NOTNULL, null, '0', 'meetingtimeend');
+        $table = new xmldb_table('electalive');
+        $field = new xmldb_field('earlyopen', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0', 'meetingtimeend');
 
         // Conditionally launch add field earlyopen.
         if (!$dbman->field_exists($table, $field)) {
@@ -61,8 +77,8 @@ function xmldb_electalive_upgrade($oldversion) {
         }
         
         // Define field moderatorearlyopen to be added to electalive.
-        //$table = new xmldb_table('electalive');
-        $field = new xmldb_field('moderatorearlyopen', XMLDB_TYPE_INTEGER, '5', null, XMLDB_NOTNULL, null, '0', 'earlyopen');
+        $table = new xmldb_table('electalive');
+        $field = new xmldb_field('moderatorearlyopen', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0' , 'earlyopen');
 
         // Conditionally launch add field moderatorearlyopen.
         if (!$dbman->field_exists($table, $field)) {

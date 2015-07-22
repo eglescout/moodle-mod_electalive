@@ -64,7 +64,7 @@ class mod_electalive_mod_form extends moodleform_mod {
         $room_attributes='';
         if(!empty($this->cm->id)) {
             if(electalive_getChangeRoom($this->cm->id) == 0) {
-                $room_attributes='readonly=''';
+                $room_attributes='readonly=""';
             }
         }
         $mform->addElement('text', 'roomid', get_string('roomid', 'electalive'),$room_attributes );
@@ -108,8 +108,9 @@ class mod_electalive_mod_form extends moodleform_mod {
         $mform->addHelpButton('earlyopen', 'earlyopen', 'electalive');
 
         $mform->addElement('select', 'moderatorearlyopen', get_string('moderatorearlyopen', 'electalive'), $durations);
-        //$mform->setDefault('moderatorearlyopen', 30);
-        $mform->setDefault('moderatorearlyopen', $electaliveconfig->defaultmoderatorearlyopen);
+        $mform->setDefault('moderatorearlyopen', 30);
+        $mform->getElement('moderatorearlyopen')->setSelected('30');
+        //$mform->setDefault('moderatorearlyopen', $electaliveconfig->defaultmoderatorearlyopen);
         $mform->addHelpButton('moderatorearlyopen', 'moderatorearlyopen', 'electalive');
 
         $this->standard_coursemodule_elements();
@@ -129,7 +130,7 @@ class mod_electalive_mod_form extends moodleform_mod {
         $errors = parent::validation($data, $files);
 
         // Check that the moderatorearlyopen is equal or greater than earlyopen time
-        if ($data['moderatorearlyopen']) < $data['earlyoopen']) {
+        if ($data['moderatorearlyopen'] < $data['earlyopen']) {
             $errors['moderatorearlyopen'] = get_string('lessthanearlyopen', 'electalive');
         }
 
