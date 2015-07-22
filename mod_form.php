@@ -57,7 +57,8 @@ class mod_electalive_mod_form extends moodleform_mod {
         }
         $mform->addRule('name', null, 'required', null, 'client');
 
-        //$mform->addElement('textarea', 'sessiondescription', get_string('sessiondesc', 'electalive'), 'wrap='virtual' rows='5' cols='64'');
+        //$mform->addElement('textarea', 'intro', get_string('intro', 'electalive'), "wrap='virtual' rows='5' cols='64'");
+        // Introduction 
         $this->add_intro_editor(false, get_string('intro', 'electalive'));
         
         // Check if user has room ID editing privileges - readonly if no
@@ -77,6 +78,8 @@ class mod_electalive_mod_form extends moodleform_mod {
 
 	
         $durations = array(
+            '0' => '0 minutes',
+            '5' => '5 minutes',
             '10' => '10 minutes',
             '15' => '15 Minutes',
             '20' => '20 Minutes',
@@ -100,17 +103,14 @@ class mod_electalive_mod_form extends moodleform_mod {
         );
 
         $mform->addElement('select', 'duration', get_string('meetingduration', 'electalive'), $durations);
-        $mform->setDefault('meetingduration', 0);
+        $mform->setDefault('meetingduration', '60');
         
         $mform->addElement('select', 'earlyopen', get_string('earlyopen', 'electalive'), $durations);
-        //$mform->setDefault('earlyopen', 15); 
         $mform->setDefault('earlyopen', $electaliveconfig->defaultearlyopen);
         $mform->addHelpButton('earlyopen', 'earlyopen', 'electalive');
 
         $mform->addElement('select', 'moderatorearlyopen', get_string('moderatorearlyopen', 'electalive'), $durations);
-        $mform->setDefault('moderatorearlyopen', 30);
-        $mform->getElement('moderatorearlyopen')->setSelected('30');
-        //$mform->setDefault('moderatorearlyopen', $electaliveconfig->defaultmoderatorearlyopen);
+        $mform->setDefault('moderatorearlyopen', $electaliveconfig->defaultmoderatorearlyopen);
         $mform->addHelpButton('moderatorearlyopen', 'moderatorearlyopen', 'electalive');
 
         $this->standard_coursemodule_elements();
