@@ -76,13 +76,65 @@
         echo $OUTPUT->heading(format_text($electalive->name));
 		
 // Print the main part of the page
- if (!empty($electalive->intro)) {
+    if (!empty($electalive->intro)) {
         echo $OUTPUT->box(format_module_intro('electalive', $electalive, $cm->id), 'generalbox', 'intro');
     }
+    $t = time();
+    //get earlyopen, moderatorearlyopen from instance
+    $earlyopen = $electalive->earlyopen*60; //time in seconds to open the classroom before the start time
+    $moderatorearlyopen = $electalive->moderatorearlyopen*60; // time in seconds to open the classroom before the start time for instructors and teachers
+    $text = get_string('meetingon', 'electalive');
+    // set open time for those with moderator privileges
+    if (electalive_getAccountType($cm->id) > 500){
+        $moderatormeetingopen = $electalive->meetingtime - $moderatorearlyopen;
+    }
+    // set open time for everyone else
+    $meetingopen = $electalive->meetingtime - $earlyopen;
+    $meetingtimeend = $electalive->meetingtimeend;
+    $randomtime = rand(1,75); // distribute the load for the server
+    $refreshtime = $meetingtimeend - $t + $randomtime;
+    $maxrefresh = 15120; // 4.2 hours - greater than the maximum session time for Moodle - so the page refresh doesn't keep someone logged in inadvertantly
+    $button = electalive_buildURLString($electalive->roomid, $cm->id);
+    $moderatoropennotice='';
+    if (isset($moderatormeetingopen) && $meetingopen > $t) {
+        if ($moderatormeetingopen > $t) {
+            $text = get_string('meetingnotstarted', 'electalive');
+            $button = '';
+            $moderatoropennotice = get_string('moderatoropennotice', 'electalive',userdate($moderatormeetingopen));
+            // no random timing for instructors
+			$refreshtime = $moderatormeetingopen - $t;
+        } else {
+            //$regularopening = userdate($meetingopen);
+            $text = get_string('moderatoronlystarted', 'electalive',userdate($meetingopen));
+        }
+    } else {
+        if ($meetingopen > $t) {
+            $text = get_string('meetingnotstarted', 'electalive');
+            $button = '';
+			$refreshtime = $meetingopen - $t + $randomtime;
+        }
+    }
+    // limit refresh time to maxrefresh
+    if ($refreshtime > $maxrefresh) {
+        $refreshtime = $maxrefresh; 
+    }
+    // set refreshtime to 0 if the session is already over
+    if ($t > $meetingtimeend) {
+      $text = get_string('meetingover', 'electalive');
+      $button = '';
+			//$refreshtime = $maxrefresh + $randomtime;
+            $refreshtime = 0;
+    }
+    // convert to microseconds
+    $refreshtime = $refreshtime*1000;		
 ?>
 
 <table class="table table-striped table-bordered">
     <tbody>
+        <tr>
+            <td><?php print_string('meetingopens', 'electalive'); ?></td>
+            <td><b><?php echo userdate($meetingopen); ?></b><?php echo $moderatoropennotice; ?></td>
+        </tr>
         <tr>
             <td><?php print_string('meetingbegins', 'electalive'); ?></td>
             <td><b><?php echo userdate($electalive->meetingtime); ?></b></td>
@@ -95,66 +147,15 @@
 </table>
 
 <?php
-   // echo '<div style="margin-top:10px; margin-bottom:5px; border-top:1px #C0C0C0 solid; font-size:14px"><b>'.'</b></div>';
-    $t = time();
-    //TODO - hook up to earlyopen, moderatorearlyopen
-    $earlyopen = 15*60; //time in seconds to open the classroom before the start time
-    $moderatorearlyopen = 30*60; // time in seconds to open the classroom before the start time for instructors and teachers
-    $text = get_string('meetingon', 'electalive');
-    if (electalive_getAccountType($cm->id) > 500){
-        $modmeetingtime = $electalive->meetingtime - $moderatorearlyopen;
-    }
-    $meetingtime = $electalive->meetingtime - $earlyopen;
-    $meetingtimeend = $electalive->meetingtimeend;
-    $randomtime = rand(1,75); // distribute the load for the server
-    $refreshtime = $meetingtimeend - $t + $randomtime;
-    $maxrefresh = 15120; // 4.2 hours - greater than the maximum session time for Moodle - so the page refresh doesn't keep someone logged in inadvertantly
-  
-    $button = electalive_buildURLString($electalive->roomid, $cm->id);
-    if (isset($modmeetingtime) && $meetingtime > $t) {
-        if ($modmeetingtime > $t) {
-            $text = get_string('meetingnotstarted', 'electalive');
-            $button = '';
-            // no random timing for instructors
-			$refreshtime = $modmeetingtime - $t;
-        } else {
-            //$regularopening = userdate($meetingtime);
-            $text = get_string('moderatoronlystarted', 'electalive',userdate($meetingtime));
-        }
-    } else {
-        if ($meetingtime > $t) {
-            $text = get_string('meetingnotstarted', 'electalive');
-            $button = '';
-			$refreshtime = $meetingtime - $t + $randomtime;
-        }
-    }
-    // limit refresh time to maxrefresh
-    if ($refreshtime > $maxrefresh) {
-        $refreshtime = $maxrefresh; 
-    }
 
-    if ($t > $meetingtimeend) {
-      $text = get_string('meetingover', 'electalive');
-      $button = '';
-			//$refreshtime = $maxrefresh + $randomtime;
-            $refreshtime = 0;
-    }
-    // convert to microseconds
-    $refreshtime = $refreshtime*1000;		
     echo '<div style="padding:30px 0">'.$text.'</div>';
     echo $button;
 		update_module_button($cm->id, $course->id, $strelectalive);
+    // skip setting the page to reload if the refreshtime is 0
     if ($refreshtime > 0){
         echo '<script type="text/javascript">
                 var electalive_t = setTimeout(function(){window.location.reload()},'.$refreshtime.' )
             </script>';
     }
-    /*
-?>
-	<script type="text/javascript">
-			var electalive_t = setTimeout(function(){window.location.reload()}, <?php echo $refreshtime; ?> )
-    </script>
-<?php
- */
 		echo $OUTPUT->footer();
 ?>
