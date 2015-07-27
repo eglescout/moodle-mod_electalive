@@ -25,8 +25,6 @@ function eLectaLive_add_instance($electalive, $mform) {
     $electalive->timemodified = time();
     $electalive->timezone = get_user_timezone($USER->timezone);
 
-//    $start = make_timestamp($electalive->syear, $electalive->smonth,
-//           $electalive->sday, $electalive->shour, $electalive->sminute);
     $start = $electalive->meetingtime;
     $end = $start + ($electalive->duration * 60);
 
@@ -45,16 +43,16 @@ function eLectaLive_add_instance($electalive, $mform) {
         $a->timeend   = userdate($end);
 
         redirect($CFG->wwwroot . '/course/mod.php?id=' . $electalive->course . '&amp;section=' .
-                               $electalive->section . '&amp;sesskey=' . $USER->sesskey . '&amp;add=electalive',
-                               get_string('invalidmeetingtimes', 'electalive', $a), 5);
+            $electalive->section . '&amp;sesskey=' . $USER->sesskey . '&amp;add=electalive',
+            get_string('invalidmeetingtimes', 'electalive', $a), 5);
     }
 
 
-    if ($returnid = $DB->insert_record("electalive", $electalive)) {
+    if ($returnid = $DB->insert_record('electalive', $electalive)) {
         
-				$event = new stdClass;
+        $event = new stdClass;
         $event->name        = $electalive->name;
-        $event->description = $electalive->sessiondescription;
+        $event->description = $electalive->intro;
         $event->courseid    = $electalive->course;
         $event->groupid     = 0;
         $event->userid      = 0;
@@ -63,9 +61,9 @@ function eLectaLive_add_instance($electalive, $mform) {
         $event->eventtype   = 'electalive';
         $event->timestart   = $electalive->meetingtime;
         $event->timeduration = $electalive->duration * 60;
-				$event->visible			= instance_is_visible('electalive', $electalive);
+        $event->visible		= instance_is_visible('electalive', $electalive);
 
-				calendar_event::create($event);
+        calendar_event::create($event);
 				
     }
 
@@ -88,20 +86,17 @@ function electalive_update_instance($electalive) {
     $electalive->id = $electalive->instance;
     $electalive->timezone = get_user_timezone($USER->timezone);
 
-//    $start = make_timestamp($electalive->syear, $electalive->smonth,
-//           $electalive->sday, $electalive->shour, $electalive->sminute);
 
     $start = $electalive->meetingtime;
     $end = $start + ($electalive->duration * 60);
 
 //    echo time()."<BR>";
 //    echo $start;
-//die();
+//    die();
 	
     $electalive->meetingtimeend = $end;
 
     if ($start > $end) {
-
 
         /// Get the course module ID for this instance.
         $sql = "SELECT cm.id
@@ -111,51 +106,49 @@ function electalive_update_instance($electalive) {
                     AND cm.module = m.id
                     AND cm.instance = '{$electalive->id}'";
 
-                    if (!$cmid = $DB->get_field_sql($sql)) {
-                        redirect($CFG->wwwroot . '/mod/electalive/view.php?id=' . $electalive->id,
-                         'The meeting start time of ' . userdate($start) . ' is after the meeting end' .
-                         'time of ' . userdate($end), 5);
-                    }
+        if (!$cmid = $DB->get_field_sql($sql)) {
+            redirect($CFG->wwwroot . '/mod/electalive/view.php?id=' . $electalive->id,
+             'The meeting start time of ' . userdate($start) . ' is after the meeting end' .
+             'time of ' . userdate($end), 5);
+        }
 
-                    redirect($CFG->wwwroot . '/course/mod.php?update=' . $cmid . '&amp;return=true&amp;' .
-                     'sesskey=' . $USER->sesskey,
-                     'The meeting start time of ' . userdate($start) . ' is after the meeting end' .
-                     'time of ' . userdate($end), 5);
+        redirect($CFG->wwwroot . '/course/mod.php?update=' . $cmid . '&amp;return=true&amp;' .
+            'sesskey=' . $USER->sesskey,
+            'The meeting start time of ' . userdate($start) . ' is after the meeting end' .
+            'time of ' . userdate($end), 5);
     }
 
     if (($electalive->roomid == '') or (!isset($electalive->roomid)) or ($electalive->roomid == 0)) {
         $sql = "SELECT cm.id
-                    FROM {$CFG->prefix}modules m,
-                    {$CFG->prefix}course_modules cm
-                    WHERE m.name = 'electalive'
-                    AND cm.module = m.id
-                    AND cm.instance = '{$electalive->id}'";
+            FROM {$CFG->prefix}modules m,
+            {$CFG->prefix}course_modules cm
+            WHERE m.name = 'electalive'
+            AND cm.module = m.id
+            AND cm.instance = '{$electalive->id}'";
 
+        if (!$cmid = $DB->get_field_sql($sql)) {
+            redirect($CFG->wwwroot . '/mod/electalive/view.php?id=' . $electalive->id,
+                'The meeting start time of ' . userdate($start) . ' is after the meeting end' .
+                'time of ' . userdate($end), 5);
+        }
 
+        redirect($CFG->wwwroot . '/course/mod.php?update=' . $cmid . '&amp;return=true&amp;' .
+         'sesskey=' . $USER->sesskey,
+         get_string('missingroomno', 'electalive'), 5);
 
-                    if (!$cmid = $DB->get_field_sql($sql)) {
-                        redirect($CFG->wwwroot . '/mod/electalive/view.php?id=' . $electalive->id,
-                         'The meeting start time of ' . userdate($start) . ' is after the meeting end' .
-                         'time of ' . userdate($end), 5);
-                    }
-
-                    redirect($CFG->wwwroot . '/course/mod.php?update=' . $cmid . '&amp;return=true&amp;' .
-                     'sesskey=' . $USER->sesskey,
-                     get_string('missingroomno', 'electalive'), 5);
-    
     }
 
     if ($returnid = $DB->update_record("electalive", $electalive)) {
-				$data = new stdClass;
+        $data = new stdClass;
         if ($data->id = $DB->get_field('event', 'id', array('modulename'=>'electalive', 'instance'=>$electalive->id))) {
-						$data->name        = $electalive->name;
-            $data->description = $electalive->sessiondescription;
+            $data->name        = $electalive->name;
+            $data->description = $electalive->intro;
             $data->timestart   = $electalive->meetingtime;
             $data->timeduration = $electalive->duration * 60;
-						$data->visible			= instance_is_visible('electalive', $electalive);
-						$eventid = $data->id;
-						$event = calendar_event::load($eventid);
-						$event->update($data);
+            $data->visible = instance_is_visible('electalive', $electalive);
+            $eventid = $data->id;
+            $event = calendar_event::load($eventid);
+            $event->update($data);
         }
     }
 
@@ -189,7 +182,8 @@ function electalive_supports($feature) {
         case FEATURE_GROUPS:                  return false;
         case FEATURE_GROUPINGS:               return false;
         case FEATURE_GROUPMEMBERSONLY:        return false;
-        case FEATURE_MOD_INTRO:               return false;
+        case FEATURE_MOD_INTRO:               return true;
+        case FEATURE_SHOW_DESCRIPTION:        return true;
         case FEATURE_COMPLETION_TRACKS_VIEWS: return false;
         case FEATURE_GRADE_HAS_GRADE:         return false;
         case FEATURE_GRADE_OUTCOMES:          return false;
@@ -387,16 +381,19 @@ function electalive_buildURLString($ARoomID, $cmid) {
 
         $lcAction = 'http://'.$roomURL.'/apps/launch.asp';
         $theRoomLink =
-                    '<form method="post" action="'.$lcAction.'" target="_blank" style="margin:0px;padding:0px">'
-                     . '<input type=hidden name="cid" value="'.$lcCID.'">'
-                     . '<input type=hidden name="roomid" value="'.$ARoomID.'">'
-                     . '<input type=hidden name="externalname" value="'.$USER->username.'">'
-                     . '<input type=hidden name="firstname" value="'.$USER->firstname.'">'
-                     . '<input type=hidden name="lastname" value="'.$USER->lastname.'">'
-                     . '<input type=hidden name="usertypeid" value="'.$lcUTID.'">'
-                     . '<input type=hidden name="token" value="'.$token.'">'
-                     . '<input type=submit value="' . get_string('enterelectalive','electalive') . '">'
-                     . '</form>';
+
+            '<form method="post" action="'.$lcAction.'" target="_blank" style="margin:0px;padding:0px">'
+             . '<input type=hidden name="cid" value="'.$lcCID.'">'
+             . '<input type=hidden name="roomid" value="'.$ARoomID.'">'
+             . '<input type=hidden name="externalname" value="'.$USER->username.'">'
+           . '<input type=hidden name="firstname" value="'.$USER->firstname.'">'
+             . '<input type=hidden name="firstname" value="'.$USER->alternatename.'">'
+           . '<input type=hidden name="lastname" value="'.$USER->lastname.'">'
+             . '<input type=hidden name="lastname" value="">'
+             . '<input type=hidden name="usertypeid" value="'.$lcUTID.'">'
+             . '<input type=hidden name="token" value="'.$token.'">'
+             . '<input type=submit value="' . get_string('enterelectalive','electalive') . '">'
+             . '</form>';
         return $theRoomLink;
 }
 

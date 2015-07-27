@@ -27,7 +27,7 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-$module->version  = 2014050801;  // The current module version (Date: YYYYMMDDXX)
+$module->version  = 2015072201;  // The current module version (Date: YYYYMMDDXX)
 $module->requires = 2014050800;  // Requires this Moodle version
 $module->cron     = 0;           // Period for cron to check this module (secs)
 ?>

@@ -40,17 +40,55 @@ function xmldb_electalive_upgrade($oldversion) {
     $dbman = $DB->get_manager();
 
 
-    // Moodle v2.2.0 release upgrade line
+    // Moodle v2.7.0 release upgrade line
     // Put any upgrade step following this
+        if ($oldversion < 2015072200) {
 
-    // Moodle v2.3.0 release upgrade line
-    // Put any upgrade step following this
+        // Rename field sessiondescription on table electalive to intro.
+        $table = new xmldb_table('electalive');
+        $field = new xmldb_field('sessiondescription', XMLDB_TYPE_TEXT, null, null, null, null, null, 'name');
 
+        // Launch rename field intro.
+        $dbman->rename_field($table, $field, 'intro');
+        
+        // Changing nullability of field intro on table electalive to not null.
+        $table = new xmldb_table('electalive');
+        $field = new xmldb_field('intro', XMLDB_TYPE_TEXT, null, null, XMLDB_NOTNULL, null, null, 'name');
 
-    // Moodle v2.4.0 release upgrade line
-    // Put any upgrade step following this
+        // Launch change of nullability for field intro.
+        $dbman->change_field_notnull($table, $field);
+        
+        // Define field introformat to be added to electalive.
+        $table = new xmldb_table('electalive');
+        $field = new xmldb_field('introformat', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '0', 'intro');
 
+        // Conditionally launch add field introformat.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
 
+        // Define field earlyopen to be added to electalive.
+        $table = new xmldb_table('electalive');
+        $field = new xmldb_field('earlyopen', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0', 'meetingtimeend');
+
+        // Conditionally launch add field earlyopen.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        
+        // Define field moderatorearlyopen to be added to electalive.
+        $table = new xmldb_table('electalive');
+        $field = new xmldb_field('moderatorearlyopen', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0' , 'earlyopen');
+
+        // Conditionally launch add field moderatorearlyopen.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Electalive savepoint reached.
+        upgrade_mod_savepoint(true, 2015072200, 'electalive');
+    }
+      
     return true;
 }
 
