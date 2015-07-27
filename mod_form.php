@@ -129,11 +129,15 @@ class mod_electalive_mod_form extends moodleform_mod {
     public function validation($data, $files) {
         $errors = parent::validation($data, $files);
 
+        // Make sure that duration > 0
+        if ($data['duration'] < 1 ) {
+            $errors['duration'] = get_string('durationtooshort', 'electalive');
+        }
         // Check that the moderatorearlyopen is equal or greater than earlyopen time
         if ($data['moderatorearlyopen'] < $data['earlyopen']) {
             $errors['moderatorearlyopen'] = get_string('lessthanearlyopen', 'electalive');
         }
-
+        
         return $errors;
     }
 

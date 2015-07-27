@@ -36,6 +36,7 @@ $string['defaultearlyopen'] = 'Default Open Time ';
 $string['defaultearlyopendesc'] = 'The default time in minutes that anyone can enter the classroom before a session\'s start time.';
 $string['defaultmoderatorearlyopen'] = 'Default Teacher Open Time ';
 $string['defaultmoderatorearlyopendesc'] = 'The default time in minutes that teachers or instructors can enter the classroom before a session\'s start time. This must equal or be higher than Default Open Time.';
+$string['durationtooshort'] = 'Oops, the duration needs to be greater than 0.';
 $string['earlyopen'] = 'Open Time';
 $string['earlyopen_help'] = 'The time in minutes that anyone can enter the classroom before a session\'s start time.';
 $string['editinstancetimeonly'] = 'Edit times of session only';

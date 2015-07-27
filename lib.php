@@ -184,6 +184,7 @@ function electalive_supports($feature) {
         case FEATURE_GROUPINGS:               return false;
         case FEATURE_GROUPMEMBERSONLY:        return false;
         case FEATURE_MOD_INTRO:               return true;
+        case FEATURE_SHOW_DESCRIPTION:        return true;
         case FEATURE_COMPLETION_TRACKS_VIEWS: return false;
         case FEATURE_GRADE_HAS_GRADE:         return false;
         case FEATURE_GRADE_OUTCOMES:          return false;
