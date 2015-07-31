@@ -1,7 +1,7 @@
 moodle-mod_electalive
 ==========================
 
-This activity module allows you to create sessions in your Electa Live virtual classroom(s). <https://www.e-lecta.com/>. Teachers and administrators can choose the following:
+This activity module allows you to create sessions in your [Electa Live virtual classroom(s)](https://www.e-lecta.com/). Teachers and administrators can choose the following:
 
 * Name of session
 * Description
@@ -48,4 +48,4 @@ For older releases of Moodle, you can find plugins at http://support.e-lecta.com
 Credits
 --------
 
-This plugin was enhanced from the one created by ELECTA COMMUNICATIONS LTD.
+This plugin was enhanced from the one created by [ELECTA COMMUNICATIONS LTD](https://www.e-lecta.com/).
