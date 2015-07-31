@@ -27,9 +27,9 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
-$string['accountid'] = 'eLecta Live Account ID';
-$string['accountiddesc'] = 'This is your eLecta Live Account ID - a number which you receive when you sign up for an eLecta Live account. <BR>If you do not have an account please visit <a target="_blank" href="http://www.e-lecta.com">www.e-lecta.com</a> to get one.';
-$string['addinstance'] = 'Add an eLecta Live Session; edit classroom IDs';
+$string['accountid'] = 'Electa Live Account ID';
+$string['accountiddesc'] = 'This is your Electa Live Account ID - a number which you receive when you sign up for an Electa Live account. <BR>If you do not have an account please visit <a target="_blank" href="http://www.e-lecta.com">www.e-lecta.com</a> to get one.';
+$string['addinstance'] = 'Add an Electa Live Session; edit classroom IDs';
 $string['attendstudent'] = 'Attend as a student';
 $string['attendteacher'] = 'Attend as a teacher or moderator';
 $string['defaultearlyopen'] = 'Default Open Time ';
@@ -40,13 +40,13 @@ $string['durationtooshort'] = 'Oops, the duration needs to be greater than 0.';
 $string['earlyopen'] = 'Open Time';
 $string['earlyopen_help'] = 'The time in minutes that anyone can enter the classroom before a session\'s start time.';
 $string['editinstancetimeonly'] = 'Edit times of session only';
-$string['electalive'] = 'eLecta Live Session';
-$string['electalive:addinstance'] = 'Add a new eLecta Live session';
-$string['electalive:attendstudent'] = 'Attend an eLecta Live session as a student';
-$string['electalive:attendteacher'] = 'Attend an eLecta Live session as a moderator/teacher';
-$string['electalive:editinstance'] = 'Edit eLecta Live sessions';
-$string['electalive:editliveroom'] = 'Edit eLecta Live Room #s';
-$string['electalive:view'] = 'View the page for eLecta Live sessions';
+$string['electalive'] = 'Electa Live Session';
+$string['electalive:addinstance'] = 'Add a new Electa Live session';
+$string['electalive:attendstudent'] = 'Attend an Electa Live session as a student';
+$string['electalive:attendteacher'] = 'Attend an Electa Live session as a moderator/teacher';
+$string['electalive:editinstance'] = 'Edit Electa Live sessions';
+$string['electalive:editliveroom'] = 'Edit Electa Live Room #s';
+$string['electalive:view'] = 'View the page for Electa Live sessions';
 $string['enterelectalive'] = 'Enter The Classroom';
 $string['intro'] = 'Session Details';
 $string['invalidcourseid'] =  'Course ID is incorrect.';
@@ -64,24 +64,24 @@ $string['moderatorearlyopen'] = 'Teacher Open Time';
 $string['moderatorearlyopen_help'] = 'The time in minutes that teachers or instructors can enter the classroom before a session\'s start time. This must equal or be higher than the Open Time.';
 $string['moderatoronlystarted'] = '<div class="alert alert-info">As part of the teaching staff, you may now enter the classroom. Others will have to wait until {$a} before they can enter.</div>';
 $string['moderatoropennotice'] = '<div class="alert alert-info">Teaching staff opening time: {$a}</div>';
-$string['modulename'] = 'eLecta Live Session';
-$string['modulenameplural'] = 'eLecta Live Sessions';
-$string['modulename_help'] = 'The Live Session module allows a teacher to create a session at a particular date, time, and duration. Anyone with access to the course can attend the live session in an eLecta Virtual Classroom  by clicking on the button that appears only during the date and time specified.';
-$string['noelectalives'] = 'There are no eLecta Live Sessions available.';
-$string['pluginname'] = 'eLecta Live';
+$string['modulename'] = 'Electa Live Session';
+$string['modulenameplural'] = 'Electa Live Sessions';
+$string['modulename_help'] = 'The Live Session module allows a teacher to create a session at a particular date, time, and duration. Anyone with access to the course can attend the live session in an Electa Virtual Classroom  by clicking on the button that appears only during the date and time specified.';
+$string['noelectalives'] = 'There are no Electa Live Sessions available.';
+$string['pluginname'] = 'Electa Live';
 $string['pluginadministration'] = 'Electa Live Session Admin';
-$string['roomid'] = 'eLecta Live Room #';
-$string['roomid_help'] = 'Your eLecta Live Room number can be found under your eLecta Live account. If you have several rooms pick the number of the one you would like your session to be held in.';
-$string['scode'] = 'eLecta Live Application Key';
-$string['scodedesc'] = 'This is your eLecta Live Application Key. The Application Key is available on the eLecta Live Integration page of your Web-based Control Panel.';
+$string['roomid'] = 'Electa Live Room #';
+$string['roomid_help'] = 'Your Electa Live Room number can be found under your Electa Live account. If you have several rooms pick the number of the one you would like your session to be held in.';
+$string['scode'] = 'Electa Live Application Key';
+$string['scodedesc'] = 'This is your Electa Live Application Key. The Application Key is available on the Electa Live Integration page of your Web-based Control Panel.';
 
 $string['sessionname'] = 'Session Title';
-$string['subdomain'] = 'eLecta Live Domain';
-$string['subdomaindesc'] = 'This is your eLecta Live site name. <i>example: YourCompanyName.e-lectazone.com</i>. <BR>The site name is specified at the time of signing up for an eLecta Live account.';
+$string['subdomain'] = 'Electa Live Domain';
+$string['subdomaindesc'] = 'This is your Electa Live site name. <i>example: YourCompanyName.e-lectazone.com</i>. <BR>The site name is specified at the time of signing up for an Electa Live account.';
 $string['subdomaindefault'] = 'YourCompanyName.e-lectazone.com';
 $string['usertimezone'] = 'Your Time Zone';
 
 
-$string['view'] = 'View the eLecta Live Session pages';
+$string['view'] = 'View the Electa Live Session pages';
 ?>
 
