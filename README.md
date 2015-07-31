@@ -1,13 +1,13 @@
 moodle-mod_electalive
 ==========================
 
-This activity module allows you to create sessions in your Electa Live virtual classroom(s). <https://www.e-lecta.com/>. Teachers and administrators can choose the following:
+This activity module allows you to create sessions in your [Electa Live virtual classroom(s)](https://www.e-lecta.com/). Teachers and administrators can choose the following:
 
 * Name of session
 * Description
 * Date and Start Time
 * Duration
-* eLecta Room ID - can be set to *read-only* through role permissions
+* Electa Room ID - can be set to *read-only* through role permissions
 * Open Time for users to enter the classroom
 * Teacher Open Time for roles with moderator privileges to enter the classroom before other users
 
@@ -38,7 +38,7 @@ Usage & Settings
 
 ### Plugin Settings
 
-Most of these settings allow your Moodle to talk with eLecta. Please see the detailed information listed on the eLecta Live admin page. `[your moodle web address]/admin/settings.php?section=modsettingelectalive`
+Most of these settings allow your Moodle to talk with Electa. Please see the detailed information listed on the Electa Live admin page. `[your moodle web address]/admin/settings.php?section=modsettingelectalive`
 
 Earlier Versions
 ----------------
@@ -48,4 +48,4 @@ For older releases of Moodle, you can find plugins at http://support.e-lecta.com
 Credits
 --------
 
-This plugin was enhanced from the one created by ELECTA COMMUNICATIONS LTD.
+This plugin was enhanced from the one created by [ELECTA COMMUNICATIONS LTD](https://www.e-lecta.com/).

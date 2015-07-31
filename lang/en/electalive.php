@@ -28,7 +28,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 $string['accountid'] = 'Electa Live Account ID';
-$string['accountiddesc'] = 'This is your Electa Live Account ID - a number which you receive when you sign up for an Electa Live account. <BR>If you do not have an account please visit <a target="_blank" href="http://www.e-lecta.com">www.e-lecta.com</a> to get one.';
+$string['accountiddesc'] = 'This is your Electa Live Account ID - a number which you receive when you sign up for an Electa Live account. <br />If you do not have an account please visit <a target="_blank" href="http://www.e-lecta.com">www.e-lecta.com</a> to get one.';
 $string['addinstance'] = 'Add an Electa Live Session; edit classroom IDs';
 $string['attendstudent'] = 'Attend as a student';
 $string['attendteacher'] = 'Attend as a teacher or moderator';

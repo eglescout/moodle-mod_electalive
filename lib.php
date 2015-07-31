@@ -82,6 +82,7 @@ function eLectaLive_add_instance($electalive, $mform) {
 function electalive_update_instance($electalive) {
     global $CFG, $USER, $DB;
     require_once("$CFG->dirroot/calendar/lib.php");
+    
     $electalive->timemodified = time();
     $electalive->id = $electalive->instance;
     $electalive->timezone = get_user_timezone($USER->timezone);
@@ -379,9 +380,8 @@ function electalive_buildURLString($ARoomID, $cmid) {
 
         $lcUTID = electalive_getAccountType($cmid);
 
-        $lcAction = 'http://'.$roomURL.'/apps/launch.asp';
+        $lcAction = 'https://'.$roomURL.'/apps/launch.asp';
         $theRoomLink =
-
             '<form method="post" action="'.$lcAction.'" target="_blank" style="margin:0px;padding:0px">'
              . '<input type=hidden name="cid" value="'.$lcCID.'">'
              . '<input type=hidden name="roomid" value="'.$ARoomID.'">'
