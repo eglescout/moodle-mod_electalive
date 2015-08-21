@@ -23,8 +23,9 @@ function eLectaLive_add_instance($electalive, $mform) {
     global $CFG, $USER, $DB;
     require_once("$CFG->dirroot/calendar/lib.php");
     $electalive->timemodified = time();
-    $electalive->timezone = get_user_timezone($USER->timezone);
-
+// doesn't work - no longer an integer in Moodle 2.9 +; hardcode
+    //   $electalive->timezone = get_user_timezone($USER->timezone);
+    $electalive->timezone = 99;
     $start = $electalive->meetingtime;
     $end = $start + ($electalive->duration * 60);
 
@@ -85,7 +86,9 @@ function electalive_update_instance($electalive) {
     
     $electalive->timemodified = time();
     $electalive->id = $electalive->instance;
-    $electalive->timezone = get_user_timezone($USER->timezone);
+    // doesn't work - no longer an integer in Moodle 2.9 +
+ //   $electalive->timezone = get_user_timezone($USER->timezone);
+    $electalive->timezone = 99;
 
 
     $start = $electalive->meetingtime;
@@ -305,17 +308,18 @@ function electalive_scale_used ($electaliveid,$scaleid) {
 /// Any other electalive functions go here.  Each of them must have a name that
 /// starts with electalive_
 function electaLive_curPageURL() {
- $pageURL = 'http';
+    $pageURL = 'http';
 
- if ($_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
- 
- $pageURL .= "://";
- if ($_SERVER["SERVER_PORT"] != "80") {
-  $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
- } else {
-  $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
- }
- return $pageURL;
+    if ( isset($_SERVER["HTTPS"]) && ($_SERVER["HTTPS"] == "on")) {
+        $pageURL .= "s";
+    }
+    $pageURL .= "://";
+    if ($_SERVER["SERVER_PORT"] != "80") {
+        $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
+    } else {
+        $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+    }
+     return $pageURL;
 }
 
 function electaLive_HTTPGET($Url){
