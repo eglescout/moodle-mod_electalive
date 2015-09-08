@@ -73,9 +73,9 @@ class mod_electalive_mod_form extends moodleform_mod {
         $mform->addHelpButton('roomid', 'roomid', 'electalive');
         $mform->setType('roomid',PARAM_INT);
 				
-        $mform->addElement('date_time_selector', 'meetingtime', get_string('meetingbegins', 'electalive'));
+        $mform->addElement('date_time_selector', 'meetingtime', get_string('meetingtime', 'electalive'));
+        $mform->addHelpButton('meetingtime', 'meetingtime', 'electalive');
         $mform->setDefault('meetingtime', 0);
-
 	
         $durations = array(
             '0' => '0 minutes',

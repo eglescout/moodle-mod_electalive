@@ -12,9 +12,9 @@
             <FIELD NAME="intro" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
             <FIELD NAME="introformat" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
             <FIELD NAME="roomid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-            <FIELD NAME="meetingtime" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"COMMENT="start time"/>
+            <FIELD NAME="meetingtime" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="start time"/>
             <FIELD NAME="timezone" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
-            <FIELD NAME="meetingtimeend" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"COMMENT="end time"/>
+            <FIELD NAME="meetingtimeend" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="end time"/>
             <FIELD NAME="earlyopen" TYPE="int" LENGTH="5" NOTNULL="true" SEQUENCE="false" COMMENT="time for opening session ahead of start time"/>
             <FIELD NAME="moderatorearlyopen" TYPE="int" LENGTH="5" NOTNULL="true" SEQUENCE="false" COMMENT="time for opening session ahead of start time for teachers"/>
         </FIELDS>

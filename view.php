@@ -136,7 +136,7 @@
             <td><b><?php echo userdate($meetingopen); ?></b><?php echo $moderatoropennotice; ?></td>
         </tr>
         <tr>
-            <td><?php print_string('meetingbegins', 'electalive'); ?></td>
+            <td><?php print_string('meetingtime', 'electalive'); ?></td>
             <td><b><?php echo userdate($electalive->meetingtime); ?></b></td>
         </tr>
         <tr>
