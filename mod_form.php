@@ -59,7 +59,7 @@ class mod_electalive_mod_form extends moodleform_mod {
 
         //$mform->addElement('textarea', 'intro', get_string('intro', 'electalive'), "wrap='virtual' rows='5' cols='64'");
         // Introduction 
-        $this->standard_intro_elements(get_string('intro', 'electalive'));
+        $this->add_intro_editor(false, get_string('intro', 'electalive'));
         
         // Check if user has room ID editing privileges - readonly if no
         $room_attributes='';
